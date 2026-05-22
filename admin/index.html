@@ -4,15 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin — James Whiting Studio</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/admin/css/admin.css">
 </head>
 <body>
-
-  <!-- Login screen -->
   <div id="login-screen">
     <div id="login-box">
       <h1>James Whiting Studio</h1>
@@ -24,136 +19,6 @@
       </form>
     </div>
   </div>
-
-  <!-- Admin app -->
-  <div id="app" hidden>
-
-    <header id="app-header">
-      <span id="app-title">James Whiting Studio</span>
-      <nav id="app-tabs">
-        <button class="tab active" data-tab="gallery">Gallery</button>
-        <button class="tab" data-tab="information">Information</button>
-        <button class="tab" data-tab="settings">Settings</button>
-      </nav>
-      <button id="logout-btn">Sign out</button>
-    </header>
-
-    <!-- Gallery tab -->
-    <section id="tab-gallery" class="tab-panel active">
-      <div id="upload-area">
-        <input type="file" id="file-input" multiple accept="image/jpeg,image/png,image/webp" hidden>
-        <button id="upload-btn">+ Upload images</button>
-        <span id="upload-hint">Drag images below to reorder. Click × to delete.</span>
-      </div>
-      <div id="image-grid"></div>
-    </section>
-
-    <!-- Information tab -->
-    <section id="tab-information" class="tab-panel">
-      <div class="form-section">
-        <h2>Content</h2>
-        <label>
-          Biography
-          <span class="hint">Use [link text](https://url.com) to add hyperlinks</span>
-          <textarea id="info-bio" rows="4"></textarea>
-        </label>
-        <label>
-          Clients
-          <span class="hint">Use [link text](https://url.com) to add hyperlinks</span>
-          <textarea id="info-clients" rows="4"></textarea>
-        </label>
-        <label>
-          Instagram handle
-          <input type="text" id="info-instagram" placeholder="@handle">
-        </label>
-        <label>
-          Instagram URL
-          <input type="url" id="info-instagram-url" placeholder="https://instagram.com/...">
-        </label>
-        <label>
-          Email address
-          <input type="email" id="info-email" placeholder="hello@...">
-        </label>
-      </div>
-
-      <div class="form-section">
-        <h2>Typography</h2>
-        <div class="typo-grid">
-          <label>
-            Font size
-            <div class="input-row">
-              <input type="number" id="typo-size" step="0.1" min="1">
-              <span class="unit">rem</span>
-            </div>
-          </label>
-          <label>
-            Font weight
-            <select id="typo-weight">
-              <option value="400">400 — Regular</option>
-              <option value="500">500 — Medium</option>
-              <option value="600">600 — Semibold</option>
-              <option value="700">700 — Bold</option>
-              <option value="800">800 — Extrabold</option>
-              <option value="900">900 — Black</option>
-            </select>
-          </label>
-          <label>
-            Letter spacing
-            <div class="input-row">
-              <input type="number" id="typo-kerning" step="0.01" min="-0.1" max="0.2">
-              <span class="unit">em</span>
-            </div>
-          </label>
-          <label>
-            Line height
-            <input type="number" id="typo-line-height" step="0.05" min="0.8" max="2">
-          </label>
-        </div>
-      </div>
-
-      <button class="save-btn" id="save-info">Save changes</button>
-      <p class="save-status" id="save-info-status"></p>
-    </section>
-
-    <!-- Settings tab -->
-    <section id="tab-settings" class="tab-panel">
-      <div class="form-section">
-        <h2>Gallery</h2>
-        <label class="toggle-label">
-          <span>Auto-advance slides</span>
-          <label class="toggle">
-            <input type="checkbox" id="setting-auto">
-            <span class="toggle-slider"></span>
-          </label>
-        </label>
-        <label id="interval-label">
-          Interval (seconds)
-          <input type="number" id="setting-interval" min="1" max="60" step="1">
-        </label>
-      </div>
-
-      <div class="form-section">
-        <h2>Change password</h2>
-        <label>
-          Current password
-          <input type="password" id="pw-current" autocomplete="current-password">
-        </label>
-        <label>
-          New password
-          <input type="password" id="pw-new" autocomplete="new-password">
-        </label>
-        <label>
-          Confirm new password
-          <input type="password" id="pw-confirm" autocomplete="new-password">
-        </label>
-      </div>
-
-      <button class="save-btn" id="save-settings">Save changes</button>
-      <p class="save-status" id="save-settings-status"></p>
-    </section>
-
-  </div>
-
   <script src="/admin/js/admin.js"></script>
 </body>
 </html>

@@ -51,6 +51,123 @@
     </div>
   </div>
 
+  <!-- Admin panel -->
+  <button id="ap-trigger" hidden title="Admin">&#9632;</button>
+
+  <div id="ap-panel" hidden>
+    <div id="ap-header">
+      <div id="ap-tabs">
+        <button class="ap-tab active" data-tab="style">Style</button>
+        <button class="ap-tab" data-tab="content">Content</button>
+        <button class="ap-tab" data-tab="gallery">Gallery</button>
+        <button class="ap-tab" data-tab="settings">Settings</button>
+      </div>
+      <button id="ap-close">&#x2715;</button>
+    </div>
+
+    <div id="ap-body">
+
+      <!-- Style -->
+      <div class="ap-section active" id="ap-style">
+        <label class="ap-label">
+          Font size <span id="ap-size-val"></span>
+          <input type="range" id="ap-size" min="2" max="7" step="0.1">
+        </label>
+        <label class="ap-label">
+          Weight
+          <select id="ap-weight">
+            <option value="400">400 Regular</option>
+            <option value="500">500 Medium</option>
+            <option value="600">600 Semibold</option>
+            <option value="700">700 Bold</option>
+            <option value="800">800 Extrabold</option>
+            <option value="900">900 Black</option>
+          </select>
+        </label>
+        <label class="ap-label">
+          Letter spacing <span id="ap-kerning-val"></span>
+          <input type="range" id="ap-kerning" min="-0.1" max="0.2" step="0.005">
+        </label>
+        <label class="ap-label">
+          Line height <span id="ap-lh-val"></span>
+          <input type="range" id="ap-lh" min="0.7" max="1.5" step="0.025">
+        </label>
+      </div>
+
+      <!-- Content -->
+      <div class="ap-section" id="ap-content">
+        <label class="ap-label">
+          Biography
+          <textarea id="ap-bio" rows="4"></textarea>
+        </label>
+        <label class="ap-label">
+          Clients
+          <textarea id="ap-clients" rows="4"></textarea>
+        </label>
+        <label class="ap-label">
+          Instagram handle
+          <input type="text" id="ap-instagram">
+        </label>
+        <label class="ap-label">
+          Instagram URL
+          <input type="url" id="ap-instagram-url">
+        </label>
+        <label class="ap-label">
+          Email
+          <input type="email" id="ap-email">
+        </label>
+      </div>
+
+      <!-- Gallery -->
+      <div class="ap-section" id="ap-gallery">
+        <div id="ap-upload-row">
+          <button id="ap-upload-btn">+ Upload</button>
+          <input type="file" id="ap-file-input" multiple accept="image/jpeg,image/png,image/webp" hidden>
+          <span id="ap-upload-hint">Drag to reorder</span>
+        </div>
+        <div id="ap-image-grid"></div>
+      </div>
+
+      <!-- Settings -->
+      <div class="ap-section" id="ap-settings">
+        <label class="ap-label ap-toggle-label">
+          Auto-advance
+          <label class="ap-toggle">
+            <input type="checkbox" id="ap-auto">
+            <span class="ap-toggle-slider"></span>
+          </label>
+        </label>
+        <label class="ap-label" id="ap-interval-label">
+          Interval (seconds)
+          <input type="number" id="ap-interval" min="1" max="60">
+        </label>
+        <div class="ap-divider"></div>
+        <label class="ap-label">
+          Current password
+          <input type="password" id="ap-pw-current">
+        </label>
+        <label class="ap-label">
+          New password
+          <input type="password" id="ap-pw-new">
+        </label>
+        <label class="ap-label">
+          Confirm
+          <input type="password" id="ap-pw-confirm">
+        </label>
+      </div>
+
+    </div>
+
+    <div id="ap-footer">
+      <button id="ap-logout">Sign out</button>
+      <div id="ap-footer-right">
+        <span id="ap-status"></span>
+        <button id="ap-save">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
   <script src="/js/main.js"></script>
 </body>
 </html>
