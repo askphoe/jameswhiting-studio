@@ -308,10 +308,12 @@ body.fit-screen #info-links a {
     right: 0;
     background: #fff;
     padding: 0.75rem 0.9rem max(1.25rem, env(safe-area-inset-bottom));
+    display: flex;
+    flex-direction: row;
     line-height: 1.4;
   }
 
-  #info-close { font-size: var(--nav-font-size, 1rem); }
+  #info-close { font-size: var(--nav-font-size, 1rem); display: block; }
 
   #info-content {
     position: absolute;
