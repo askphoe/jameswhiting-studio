@@ -217,8 +217,14 @@ function apInitAdmin() {
   });
 
   // Open / close
-  trigger.addEventListener('click', () => panel.removeAttribute('hidden'));
-  document.getElementById('ap-close').addEventListener('click', () => panel.setAttribute('hidden', ''));
+  trigger.addEventListener('click', () => {
+    panel.removeAttribute('hidden');
+    document.body.classList.add('ap-open');
+  });
+  document.getElementById('ap-close').addEventListener('click', () => {
+    panel.setAttribute('hidden', '');
+    document.body.classList.remove('ap-open');
+  });
 
   // Tabs
   document.querySelectorAll('.ap-tab').forEach(tab => {
@@ -382,11 +388,13 @@ function apInitAdmin() {
     await fetch('/admin/logout', { method: 'POST' });
     panel.setAttribute('hidden', '');
     trigger.setAttribute('hidden', '');
+    document.body.classList.remove('ap-open');
   });
 
   // Open panel if redirected from /admin login
   if (new URLSearchParams(location.search).get('adminopen') === '1') {
     panel.removeAttribute('hidden');
+    document.body.classList.add('ap-open');
     history.replaceState({}, '', '/');
   }
 }

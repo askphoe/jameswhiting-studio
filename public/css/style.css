@@ -583,3 +583,21 @@ html, body {
   cursor: pointer;
 }
 #ap-logout:hover { color: #fff; }
+
+/* ── Admin panel open: push site content left ───────────────────────────────── */
+
+@media (min-width: 640px) {
+  #gallery,
+  #gallery-click,
+  #info-overlay,
+  #contact-overlay {
+    transition: right 0.3s ease;
+  }
+
+  body.ap-open #gallery,
+  body.ap-open #gallery-click,
+  body.ap-open #info-overlay,
+  body.ap-open #contact-overlay {
+    right: 320px;
+  }
+}
