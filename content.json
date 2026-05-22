@@ -1,7 +1,9 @@
 {
   "nav": {
     "information": "Information",
-    "contact": "Contact"
+    "contact": "Contact",
+    "fontSize": "1rem",
+    "fontWeight": "400"
   },
   "info": {
     "bio": "James Whiting is an Art Director & Photographer based in Melbourne, Australia.",

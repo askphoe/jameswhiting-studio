@@ -117,7 +117,14 @@ async function loadContent() {
   if (data.nav) {
     document.getElementById('nav-info').textContent    = data.nav.information || 'Information';
     document.getElementById('nav-contact').textContent = data.nav.contact     || 'Contact';
+    applyNavTypography(data.nav);
   }
+}
+
+function applyNavTypography(nav) {
+  const r = document.documentElement.style;
+  r.setProperty('--nav-font-size',   nav.fontSize   || '1rem');
+  r.setProperty('--nav-font-weight', nav.fontWeight || '400');
 }
 
 /* ── Admin panel ────────────────────────────────────────────────────────────── */
@@ -145,6 +152,10 @@ function apPopulateStyle(typo) {
 function apPopulateContent(info, nav) {
   document.getElementById('ap-nav-info').value      = nav ? (nav.information || 'Information') : 'Information';
   document.getElementById('ap-nav-contact').value   = nav ? (nav.contact     || 'Contact')     : 'Contact';
+  const navSize = parseFloat(nav ? (nav.fontSize || '1') : '1');
+  document.getElementById('ap-nav-size').value          = navSize;
+  document.getElementById('ap-nav-size-val').textContent = navSize.toFixed(2) + 'rem';
+  document.getElementById('ap-nav-weight').value    = nav ? (nav.fontWeight || '400') : '400';
   document.getElementById('ap-bio').value           = info.bio;
   document.getElementById('ap-clients').value       = info.clients;
   document.getElementById('ap-instagram').value     = info.instagram;
@@ -295,6 +306,17 @@ function apInitAdmin() {
     document.documentElement.style.setProperty('--info-line-height', v);
   });
 
+  // Nav typography: live updates
+  document.getElementById('ap-nav-size').addEventListener('input', e => {
+    const v = parseFloat(e.target.value);
+    document.getElementById('ap-nav-size-val').textContent = v.toFixed(2) + 'rem';
+    document.documentElement.style.setProperty('--nav-font-size', v + 'rem');
+  });
+
+  document.getElementById('ap-nav-weight').addEventListener('change', e => {
+    document.documentElement.style.setProperty('--nav-font-weight', e.target.value);
+  });
+
   // Settings: interval visibility
   document.getElementById('ap-auto').addEventListener('change', e => {
     document.getElementById('ap-interval-label').style.display = e.target.checked ? '' : 'none';
@@ -382,7 +404,9 @@ function apInitAdmin() {
     const payload = {
       nav: {
         information: document.getElementById('ap-nav-info').value.trim()    || 'Information',
-        contact:     document.getElementById('ap-nav-contact').value.trim() || 'Contact'
+        contact:     document.getElementById('ap-nav-contact').value.trim() || 'Contact',
+        fontSize:    parseFloat(document.getElementById('ap-nav-size').value).toFixed(2) + 'rem',
+        fontWeight:  document.getElementById('ap-nav-weight').value
       },
       info: {
         bio:          document.getElementById('ap-bio').value.trim(),
@@ -413,6 +437,7 @@ function apInitAdmin() {
       // Update nav live
       document.getElementById('nav-info').textContent    = payload.nav.information;
       document.getElementById('nav-contact').textContent = payload.nav.contact;
+      applyNavTypography(payload.nav);
 
       // Update info overlay live
       document.getElementById('info-bio').innerHTML     = parseLinks(payload.info.bio);

@@ -77,8 +77,8 @@ html, body {
 
 #nav a {
   font-family: 'Bitter', Georgia, serif;
-  font-weight: 400;
-  font-size: 1rem;
+  font-weight: var(--nav-font-weight, 400);
+  font-size: var(--nav-font-size, 1rem);
   color: rgba(0,0,0,0.85);
   text-decoration: none;
   display: block;
@@ -112,8 +112,8 @@ html, body {
 
 #info-close {
   font-family: 'Bitter', Georgia, serif;
-  font-weight: 400;
-  font-size: 1rem;
+  font-weight: var(--nav-font-weight, 400);
+  font-size: var(--nav-font-size, 1rem);
   line-height: 1.4;
   color: rgba(0,0,0,0.85);
   text-decoration: none;
@@ -296,7 +296,7 @@ html, body {
     line-height: 1.4;
   }
 
-  #nav a { font-size: 1rem; }
+  #nav a { font-size: var(--nav-font-size, 1rem); }
 
   /* ── Info overlay: Home pinned to exact same coordinates as #nav ── */
   #info-overlay {
@@ -314,7 +314,7 @@ html, body {
     line-height: 1.4;
   }
 
-  #info-close { font-size: 1rem; }
+  #info-close { font-size: var(--nav-font-size, 1rem); }
 
   #info-content {
     position: absolute;
