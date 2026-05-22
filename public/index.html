@@ -97,6 +97,15 @@
       <!-- Content -->
       <div class="ap-section" id="ap-content">
         <label class="ap-label">
+          Navigation — Information link
+          <input type="text" id="ap-nav-info">
+        </label>
+        <label class="ap-label">
+          Navigation — Contact link
+          <input type="text" id="ap-nav-contact">
+        </label>
+        <div class="ap-divider"></div>
+        <label class="ap-label">
           Biography
           <textarea id="ap-bio" rows="4"></textarea>
         </label>
@@ -123,7 +132,7 @@
         <div id="ap-upload-row">
           <button id="ap-upload-btn">+ Upload</button>
           <input type="file" id="ap-file-input" multiple accept="image/jpeg,image/png,image/webp" hidden>
-          <span id="ap-upload-hint">Drag to reorder</span>
+          <button id="ap-delete-selected" hidden>Delete selected</button>
         </div>
         <div id="ap-image-grid"></div>
       </div>

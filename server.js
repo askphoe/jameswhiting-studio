@@ -173,6 +173,7 @@ app.put('/admin/api/content', requireAuth, (req, res) => {
   const updated = {
     ...current,
     ...req.body,
+    nav:        { ...current.nav,        ...(req.body.nav        || {}) },
     info:       { ...current.info,       ...(req.body.info       || {}) },
     gallery:    { ...current.gallery,    ...(req.body.gallery    || {}) },
     typography: { ...current.typography, ...(req.body.typography || {}) }

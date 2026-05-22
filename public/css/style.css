@@ -540,7 +540,31 @@ html, body {
   opacity: 0; transition: opacity 0.15s;
 }
 .ap-image-card:hover .ap-del { opacity: 1; }
+.ap-image-card.selected { outline: 2px solid #fff; }
+.ap-image-card.selected::after {
+  content: '✓';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: #fff;
+  pointer-events: none;
+}
 .sortable-ghost { opacity: 0.2; }
+
+#ap-delete-selected {
+  background: rgba(220,50,50,0.2);
+  border: 1px solid rgba(220,50,50,0.5);
+  color: #ff6b6b;
+  font-family: inherit;
+  font-size: 11px;
+  padding: 0.4rem 0.75rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
 
 /* Footer */
 #ap-footer {

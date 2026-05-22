@@ -113,12 +113,18 @@ async function loadContent() {
   const email = document.getElementById('info-email');
   email.textContent = data.info.email;
   email.href        = 'mailto:' + data.info.email;
+
+  if (data.nav) {
+    document.getElementById('nav-info').textContent    = data.nav.information || 'Information';
+    document.getElementById('nav-contact').textContent = data.nav.contact     || 'Contact';
+  }
 }
 
 /* ── Admin panel ────────────────────────────────────────────────────────────── */
 
 let apContent  = {};
 let apSortable = null;
+let apSelected = new Set();
 
 function apPopulateStyle(typo) {
   const size = parseFloat(typo.fontSize);
@@ -136,7 +142,9 @@ function apPopulateStyle(typo) {
   document.getElementById('ap-lh-val').textContent  = lh.toFixed(3);
 }
 
-function apPopulateContent(info) {
+function apPopulateContent(info, nav) {
+  document.getElementById('ap-nav-info').value      = nav ? (nav.information || 'Information') : 'Information';
+  document.getElementById('ap-nav-contact').value   = nav ? (nav.contact     || 'Contact')     : 'Contact';
   document.getElementById('ap-bio').value           = info.bio;
   document.getElementById('ap-clients').value       = info.clients;
   document.getElementById('ap-instagram').value     = info.instagram;
@@ -150,11 +158,24 @@ function apPopulateSettings(gallery) {
   document.getElementById('ap-interval-label').style.display = gallery.autoAdvance ? '' : 'none';
 }
 
+function apUpdateDeleteBtn() {
+  const btn = document.getElementById('ap-delete-selected');
+  if (apSelected.size > 0) {
+    btn.textContent = `Delete selected (${apSelected.size})`;
+    btn.removeAttribute('hidden');
+  } else {
+    btn.setAttribute('hidden', '');
+  }
+}
+
 function apRenderGallery(images) {
   const grid   = document.getElementById('ap-image-grid');
   const sorted = [...images].sort((a, b) => a.order - b.order);
 
+  apSelected.clear();
+  apUpdateDeleteBtn();
   grid.innerHTML = '';
+
   sorted.forEach(image => {
     const card = document.createElement('div');
     card.className  = 'ap-image-card';
@@ -167,7 +188,21 @@ function apRenderGallery(images) {
     const del = document.createElement('button');
     del.className   = 'ap-del';
     del.textContent = '×';
-    del.addEventListener('click', () => apDeleteImage(image.id));
+    del.addEventListener('click', e => {
+      e.stopPropagation();
+      apDeleteImage(image.id);
+    });
+
+    card.addEventListener('click', () => {
+      if (apSelected.has(image.id)) {
+        apSelected.delete(image.id);
+        card.classList.remove('selected');
+      } else {
+        apSelected.add(image.id);
+        card.classList.add('selected');
+      }
+      apUpdateDeleteBtn();
+    });
 
     card.append(img, del);
     grid.appendChild(card);
@@ -211,7 +246,7 @@ function apInitAdmin() {
   fetch('/admin/api/content').then(r => r.json()).then(data => {
     apContent = data;
     apPopulateStyle(data.typography);
-    apPopulateContent(data.info);
+    apPopulateContent(data.info, data.nav);
     apPopulateSettings(data.gallery);
     apRenderGallery(data.gallery.images);
   });
@@ -263,6 +298,17 @@ function apInitAdmin() {
   // Settings: interval visibility
   document.getElementById('ap-auto').addEventListener('change', e => {
     document.getElementById('ap-interval-label').style.display = e.target.checked ? '' : 'none';
+  });
+
+  // Delete selected
+  document.getElementById('ap-delete-selected').addEventListener('click', async () => {
+    if (!apSelected.size || !confirm(`Delete ${apSelected.size} image(s)?`)) return;
+    await Promise.all([...apSelected].map(id =>
+      fetch('/admin/api/images/' + id, { method: 'DELETE' })
+    ));
+    apContent.gallery.images = apContent.gallery.images.filter(i => !apSelected.has(i.id));
+    apRenderGallery(apContent.gallery.images);
+    buildSlides([...apContent.gallery.images].sort((a, b) => a.order - b.order));
   });
 
   // Upload
@@ -334,6 +380,10 @@ function apInitAdmin() {
     }
 
     const payload = {
+      nav: {
+        information: document.getElementById('ap-nav-info').value.trim()    || 'Information',
+        contact:     document.getElementById('ap-nav-contact').value.trim() || 'Contact'
+      },
       info: {
         bio:          document.getElementById('ap-bio').value.trim(),
         clients:      document.getElementById('ap-clients').value.trim(),
@@ -360,6 +410,10 @@ function apInitAdmin() {
     });
 
     if (res.ok) {
+      // Update nav live
+      document.getElementById('nav-info').textContent    = payload.nav.information;
+      document.getElementById('nav-contact').textContent = payload.nav.contact;
+
       // Update info overlay live
       document.getElementById('info-bio').innerHTML     = parseLinks(payload.info.bio);
       document.getElementById('info-clients').innerHTML = parseLinks(payload.info.clients);
