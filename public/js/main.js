@@ -27,34 +27,52 @@ function applyTypography(typo) {
 
 /* ── Gallery ───────────────────────────────────────────────────────────────── */
 
-function buildSlides(images) {
+const BATCH_SIZE        = 10;
+const PRELOAD_THRESHOLD = 3;  // load next batch when this many slides from end
+
+let allImages   = [];
+let loadedCount = 0;
+
+function appendSlide(image, isFirst) {
   const gallery = document.getElementById('gallery');
-  gallery.innerHTML = '';
-  slides = [];
+  const div = document.createElement('div');
+  div.className = 'slide' + (isFirst ? ' active' : '');
 
-  images.forEach((image, i) => {
-    const div = document.createElement('div');
-    div.className = 'slide' + (i === 0 ? ' active' : '');
+  const img = document.createElement('img');
+  img.src       = '/uploads/' + image.filename;
+  img.alt       = '';
+  img.draggable = false;
 
-    const img = document.createElement('img');
-    img.src = '/uploads/' + image.filename;
-    img.alt = '';
-    img.draggable = false;
-
-    img.addEventListener('load', () => {
-      const portrait = img.naturalHeight > img.naturalWidth;
-      div.classList.add(portrait ? 'portrait' : 'landscape');
-    });
-
-    div.appendChild(img);
-    gallery.appendChild(div);
-    slides.push(div);
+  img.addEventListener('load', () => {
+    div.classList.add(img.naturalHeight > img.naturalWidth ? 'portrait' : 'landscape');
   });
+
+  div.appendChild(img);
+  gallery.appendChild(div);
+  slides.push(div);
+}
+
+function loadNextBatch() {
+  const batch = allImages.slice(loadedCount, loadedCount + BATCH_SIZE);
+  batch.forEach((image, i) => appendSlide(image, loadedCount === 0 && i === 0));
+  loadedCount += batch.length;
+}
+
+function buildSlides(images) {
+  document.getElementById('gallery').innerHTML = '';
+  slides       = [];
+  current      = 0;
+  allImages    = images;
+  loadedCount  = 0;
+  loadNextBatch();
 }
 
 function showSlide(index) {
   slides.forEach((s, i) => s.classList.toggle('active', i === index));
   current = index;
+  if (loadedCount < allImages.length && index >= loadedCount - PRELOAD_THRESHOLD) {
+    loadNextBatch();
+  }
 }
 
 function nextSlide() {
