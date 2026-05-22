@@ -9,8 +9,8 @@ const { Resend } = require('resend');
 const path       = require('path');
 const fs         = require('fs');
 
-const app    = express();
-const resend = new Resend(process.env.RESEND_API_KEY);
+const app = express();
+const getResend = () => new Resend(process.env.RESEND_API_KEY);
 
 const CONTENT_FILE  = path.join(__dirname, 'content.json');
 const AUTH_FILE     = path.join(__dirname, 'auth.json');
@@ -83,7 +83,7 @@ app.post('/api/contact', async (req, res) => {
   if (!from || !message) return res.status(400).json({ error: 'Missing fields' });
 
   try {
-    await resend.emails.send({
+    await getResend().emails.send({
       from:     'website@jameswhitingstudio.com',
       to:       ADMIN_EMAIL,
       reply_to: from,
@@ -128,7 +128,7 @@ app.post('/admin/api/reset-request', async (req, res) => {
   const url = `${req.protocol}://${req.get('host')}/admin/reset.html?token=${token}`;
 
   try {
-    await resend.emails.send({
+    await getResend().emails.send({
       from:    'noreply@jameswhitingstudio.com',
       to:      ADMIN_EMAIL,
       subject: 'Password reset — James Whiting Studio',
