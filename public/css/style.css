@@ -275,6 +275,8 @@ body.fit-screen #info-links a {
     flex: 1;
   }
 
+  .slide { align-items: flex-start; }
+
   /* ── Main nav: white bar pinned to bottom, links in a row ── */
   #nav {
     top: auto;
