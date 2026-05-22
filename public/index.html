@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>James Whiting Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- Gallery -->
+  <div id="gallery"></div>
+  <div id="gallery-click" aria-label="Next image"></div>
+
+  <!-- Navigation -->
+  <nav id="nav">
+    <a href="#" id="nav-info">Information</a>
+    <a href="#" id="nav-contact">Contact</a>
+  </nav>
+
+  <!-- Information overlay -->
+  <div id="info-overlay" aria-hidden="true">
+    <div id="info-nav">
+      <a href="#" id="info-close">Home</a>
+    </div>
+    <div id="info-content">
+      <p id="info-bio"></p>
+      <p id="info-clients"></p>
+      <div id="info-links">
+        <a id="info-instagram" href="#" target="_blank" rel="noopener noreferrer"></a>
+        <a id="info-email" href="#"></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact modal -->
+  <div id="contact-overlay" aria-hidden="true">
+    <div id="contact-modal">
+      <form id="contact-form">
+        <input type="email" name="from" placeholder="your@email.com" required autocomplete="email">
+        <textarea name="message" placeholder="Write your message..." required rows="6"></textarea>
+        <div id="contact-actions">
+          <button type="button" id="contact-cancel">Cancel</button>
+          <button type="submit" id="contact-send">Send</button>
+        </div>
+      </form>
+      <p id="contact-status"></p>
+    </div>
+  </div>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

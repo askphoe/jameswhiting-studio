@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reset password — James Whiting Studio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/admin/css/admin.css">
+</head>
+<body>
+  <div id="login-screen">
+    <div id="login-box">
+      <h1>Reset password</h1>
+      <form id="reset-form">
+        <input type="password" id="new-password" placeholder="New password" required autocomplete="new-password">
+        <input type="password" id="confirm-password" placeholder="Confirm new password" required autocomplete="new-password">
+        <button type="submit">Set new password</button>
+        <p id="reset-error"></p>
+      </form>
+    </div>
+  </div>
+  <script>
+    const token = new URLSearchParams(location.search).get('token');
+    if (!token) {
+      document.getElementById('reset-form').innerHTML = '<p style="color:red">Invalid or missing reset link.</p>';
+    }
+
+    document.getElementById('reset-form')?.addEventListener('submit', async e => {
+      e.preventDefault();
+      const np = document.getElementById('new-password').value;
+      const cp = document.getElementById('confirm-password').value;
+      const err = document.getElementById('reset-error');
+
+      if (np !== cp) { err.textContent = 'Passwords do not match.'; return; }
+      if (np.length < 8) { err.textContent = 'Password must be at least 8 characters.'; return; }
+
+      const res = await fetch('/admin/api/reset-password', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ token, password: np })
+      });
+
+      if (res.ok) {
+        document.getElementById('login-box').innerHTML =
+          '<h1>Password updated</h1><p style="margin-top:1rem"><a href="/admin">Sign in</a></p>';
+      } else {
+        const data = await res.json();
+        err.textContent = data.error || 'Something went wrong.';
+      }
+    });
+  </script>
+</body>
+</html>

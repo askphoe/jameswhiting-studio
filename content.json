@@ -1,0 +1,27 @@
+{
+  "info": {
+    "bio": "James Whiting is an Art Director & Photographer based in Melbourne, Australia.",
+    "clients": "Clients include; [lululemon](https://goodsportmagazine.com/), Financial Times, Doxa, Observe, Bonds, Adidas, Mutimer, New Balance, Studio Brave, More Studio & Up There Athletics",
+    "instagram": "@jameswhiting",
+    "instagramUrl": "https://www.instagram.com/jameswhiting/",
+    "email": "hello@jameswhitingstudio.com"
+  },
+  "gallery": {
+    "autoAdvance": false,
+    "interval": 5000,
+    "images": [
+      { "id": "land1", "filename": "land1.jpg", "order": 0 },
+      { "id": "port1", "filename": "port1.jpg", "order": 1 },
+      { "id": "land2", "filename": "land2.jpg", "order": 2 },
+      { "id": "port2", "filename": "port2.jpg", "order": 3 },
+      { "id": "land3", "filename": "land3.jpg", "order": 4 },
+      { "id": "port3", "filename": "port3.jpg", "order": 5 }
+    ]
+  },
+  "typography": {
+    "fontSize": "4.2rem",
+    "fontWeight": "800",
+    "letterSpacing": "-0.02em",
+    "lineHeight": "1.1"
+  }
+}
