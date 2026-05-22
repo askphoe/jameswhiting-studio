@@ -12,14 +12,22 @@ const fs         = require('fs');
 const app = express();
 const getResend = () => new Resend(process.env.RESEND_API_KEY);
 
-const CONTENT_FILE  = path.join(__dirname, 'content.json');
-const AUTH_FILE     = path.join(__dirname, 'auth.json');
-const UPLOADS_DIR   = path.join(__dirname, 'public', 'uploads');
+// When DATA_DIR is set (Railway volume), all mutable files live there.
+// Locally it falls back to the repo root / public/uploads as before.
+const DATA_DIR      = process.env.DATA_DIR || null;
+const CONTENT_FILE  = DATA_DIR ? path.join(DATA_DIR, 'content.json') : path.join(__dirname, 'content.json');
+const AUTH_FILE     = DATA_DIR ? path.join(DATA_DIR, 'auth.json')    : path.join(__dirname, 'auth.json');
+const UPLOADS_DIR   = DATA_DIR ? path.join(DATA_DIR, 'uploads')      : path.join(__dirname, 'public', 'uploads');
 const ADMIN_EMAIL   = 'hello@jameswhitingstudio.com';
 
 // ── Init data files ───────────────────────────────────────────────────────────
 
 if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+
+// On first deploy to a fresh volume, seed content.json from the repo default
+if (DATA_DIR && !fs.existsSync(CONTENT_FILE)) {
+  fs.copyFileSync(path.join(__dirname, 'content.json'), CONTENT_FILE);
+}
 
 if (!fs.existsSync(AUTH_FILE)) {
   const defaultPassword = 'changeme123';
@@ -51,6 +59,7 @@ app.use(session({
   cookie:            { maxAge: 7 * 24 * 60 * 60 * 1000 }
 }));
 
+app.use('/uploads', express.static(UPLOADS_DIR));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // ── Multer ────────────────────────────────────────────────────────────────────
