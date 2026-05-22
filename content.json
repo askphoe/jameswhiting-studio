@@ -28,6 +28,7 @@
     "fontSize": "4.2rem",
     "fontWeight": "800",
     "letterSpacing": "-0.02em",
-    "lineHeight": "1.1"
+    "lineHeight": "1.1",
+    "fitToScreen": true
   }
 }

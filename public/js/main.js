@@ -22,6 +22,7 @@ function applyTypography(typo) {
   r.setProperty('--info-line-height',     typo.lineHeight);
   const base = parseFloat(typo.fontSize);
   r.setProperty('--info-links-font-size', (base * 0.67).toFixed(2) + typo.fontSize.replace(/[\d.]/g, ''));
+  document.body.classList.toggle('fit-screen', !!typo.fitToScreen);
 }
 
 /* ── Gallery ───────────────────────────────────────────────────────────────── */
@@ -147,6 +148,7 @@ function apPopulateStyle(typo) {
   const lh = parseFloat(typo.lineHeight);
   document.getElementById('ap-lh').value           = lh;
   document.getElementById('ap-lh-val').textContent  = lh.toFixed(3);
+  document.getElementById('ap-fit-screen').checked  = !!typo.fitToScreen;
 }
 
 function apPopulateContent(info, nav) {
@@ -306,6 +308,10 @@ function apInitAdmin() {
     document.documentElement.style.setProperty('--info-line-height', v);
   });
 
+  document.getElementById('ap-fit-screen').addEventListener('change', e => {
+    document.body.classList.toggle('fit-screen', e.target.checked);
+  });
+
   // Nav typography: live updates
   document.getElementById('ap-nav-size').addEventListener('input', e => {
     const v = parseFloat(e.target.value);
@@ -419,7 +425,8 @@ function apInitAdmin() {
         fontSize:      sizeVal + 'rem',
         fontWeight:    document.getElementById('ap-weight').value,
         letterSpacing: kerningVal + 'em',
-        lineHeight:    lhVal.toString()
+        lineHeight:    lhVal.toString(),
+        fitToScreen:   document.getElementById('ap-fit-screen').checked
       },
       gallery: {
         autoAdvance: document.getElementById('ap-auto').checked,
