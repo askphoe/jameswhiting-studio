@@ -25,6 +25,7 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  padding: 2px 2px 2px 0;
 }
 
 .slide.active { opacity: 1; }
