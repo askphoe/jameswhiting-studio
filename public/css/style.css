@@ -275,7 +275,10 @@ body.fit-screen #info-links a {
     flex: 1;
   }
 
-  .slide { align-items: flex-start; }
+  .slide {
+    align-items: flex-start;
+    padding-bottom: calc(2.15rem + max(1.25rem, env(safe-area-inset-bottom)));
+  }
 
   /* ── Main nav: white bar pinned to bottom, links in a row ── */
   #nav {
